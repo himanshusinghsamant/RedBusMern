@@ -9,6 +9,8 @@ import { FaArrowRightLong } from "react-icons/fa6";
 import bus_image from "../images/bus-image.png";
 import { FaStar } from "react-icons/fa6";
 import { Link } from "react-router-dom";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const trendingOffersData = [
   {
@@ -42,23 +44,22 @@ const trendingOffersData = [
 ];
 
 const Home = () => {
-  const [searchInput, setSearchInput] = useState("");
-  const [filteredStates, setFilteredStates] = useState([]);
+ 
+  const [ selectFrom, setSelectFrom] = useState("");
+  const [ selectTo, setSelectTo] = useState("");
+  const [selectedDate, setSelectedDate] = useState(null);
 
-  const handleInputChange = (e) => {
-    const inputValue = e.target.value;
-    setSearchInput(inputValue);
-    if (inputValue) {
-      const filtered = indianStates.filter((state) =>
-        state.name.toLowerCase().includes(inputValue.toLowerCase())
-      );
-      setFilteredStates(filtered);
-    } else {
-      setFilteredStates([]);
-    }
-  };
+  function handleChangeFrom(from){
+    setSelectFrom(from.target.value)
+  }
 
-  console.log(filteredStates);
+  function handleChangeTo(to){
+    setSelectTo(to.target.value)
+  }
+
+  function handleDateChange(date) {
+    setSelectedDate(date);
+  }
 
   return (
     <main>
@@ -78,33 +79,21 @@ const Home = () => {
               <label className="mr-4" htmlFor="">
                 From
               </label>
-              <input
-                className="border-[1px] rounded-md p-4"
-                type="text"
-                value={searchInput}
-                onChange={handleInputChange}
-              />
-              {searchInput && (
-                <div className="absolute top-[70px] left-[52px]">
-                  <select
-                    className="border-[1px] rounded-md p-4 w-[200px]"
-                    multiple
-                  >
-                    {filteredStates.map((state, index) => (
-                      <option
-                        className="my-3 cursor-pointer"
-                        key={index}
-                        value={state.name}
-                      >
-                        {state.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              )}
+              <select
+              value={selectFrom}
+              onChange={handleChangeFrom}
+                className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:border-blue-500"
+                name="from"
+              >
+                 <option value="">Select From</option>
+                {indianStates.map((options, index) => {
+                  return <option key={index} value={options.name}>{options.name}</option>;
+                })}
+              </select>
             </div>
           </div>
-          <div className="flex items-center justify-center my-3">
+
+          <div className="flex items-center justify- my-3">
             <span className="text-xl mr-4">
               <FaCar />
             </span>
@@ -112,32 +101,21 @@ const Home = () => {
               <label className="mr-4" htmlFor="">
                 To
               </label>
-              <input
-                className="border-[1px] rounded-md p-4"
-                type="text"
-                value={searchInput}
-                onChange={handleInputChange}
-              />
-              {searchInput && (
-                <div className="absolute top-[70px] left-[52px]">
-                  <select
-                    className="border-[1px] rounded-md p-4 w-[200px]"
-                    multiple
-                  >
-                    {filteredStates.map((state, index) => (
-                      <option
-                        className="my-3 cursor-pointer"
-                        key={index}
-                        value={state.name}
-                      >
-                        {state.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              )}
+              <select
+              value={selectTo}
+              onChange={handleChangeTo}
+                className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:border-blue-500"
+                name="from"
+              >
+                 <option value="">Select To</option>
+                {indianStates.map((options, index) => {
+                  return <option key={index} value={options.name}>{options.name}</option>;
+                })}
+              </select>
             </div>
           </div>
+
+          {/* ***********************************************> */}
 
           <div className="flex items-center justify-center my-3">
             <span className="text-xl mr-4">
@@ -148,33 +126,20 @@ const Home = () => {
                 Date
               </label>
 
-              <div className="relative max-w-sm">
-                <div className="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
-                  <svg
-                    className="w-4 h-4 text-gray-500 dark:text-gray-400"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                  >
-                    <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
-                  </svg>
-                </div>
-                <input
-                  datepicker
-                  type="text"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  placeholder="Select date"
-                />
-              </div>
+              <DatePicker
+                selected={selectedDate}
+                onChange={handleDateChange}
+                dateFormat="MM/dd/yyyy"
+                className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:border-blue-500"
+              />
             </div>
           </div>
           <div className="my-3 md:m-5">
-           <Link to={'/bustickets'}>
-           <button className="border-2 rounded-lg hover:border-orange-600 hover:bg-orange-600 hover:text-white px-4 py-2 hoover text-lg font-semibold transition-all duration-200 ease-in-out tracking-widest">
-              Search
-            </button>
-           </Link>
+            <Link to={"/bustickets"}>
+              <button className="border-2 rounded-lg hover:border-orange-600 hover:bg-orange-600 hover:text-white px-4 py-2 hoover text-lg font-semibold transition-all duration-200 ease-in-out tracking-widest">
+                Search
+              </button>
+            </Link>
           </div>
         </div>
       </div>
@@ -251,16 +216,20 @@ const Home = () => {
 
       <section className="px-5 md:px-[50px] lg:p-[100px] md:mt-[150px] lg:mt-[100px] md:flex md:justify-center md:relative">
         <img
-        className="hidden md:block"
+          className="hidden md:block"
           src="https://s1.rdbuz.com/web/images/homeV2/appinstall/appInstallbg.svg"
           alt=""
         />
         <div className="md:absolute lg:left-[15%] lg:top-[16%] md:-top-[43%] p-7">
-          <h4 className="font-semibold text-5xl lg:text-white mb-7 tracking-wide">ENJOY THE APP!</h4>
+          <h4 className="font-semibold text-5xl lg:text-white mb-7 tracking-wide">
+            ENJOY THE APP!
+          </h4>
           <div className="bg-white rounded-3xl p-7 space-y-7">
             <ul className="space-y-5 text-gray-500">
               <li className="text-2xl tracking-wider">Quick access</li>
-              <li className="text-2xl tracking-wider">Superior live tracking</li>
+              <li className="text-2xl tracking-wider">
+                Superior live tracking
+              </li>
             </ul>
             <div className="flex">
               <div className="space-y-3 border-r-[2px] px-5">

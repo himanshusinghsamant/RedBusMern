@@ -10,7 +10,7 @@ const Footer = () => {
   return (
     <div>
        <div>
-      <footer className="bg-[#1A1A1A] mt-[100px]">
+      <footer className="bg-[#1A1A1A]">
         <section className=" ">
           <div className="   lg:mx-[5%] lg:px-10  text-white py-10 flex flex-col items-center lg:flex-row lg:justify-between">
             <div className="w-[70%] lg:w-[240px] lg:my-[80px]">
