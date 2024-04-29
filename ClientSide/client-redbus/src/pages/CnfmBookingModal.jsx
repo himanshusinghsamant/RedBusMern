@@ -1,8 +1,20 @@
 import React from "react";
 import { FaRegCheckCircle } from "react-icons/fa";
 import { CiStar } from "react-icons/ci";
+// import { useSelector} from "react-redux";
 
 const CnfmBookingModal = () => {
+
+  // const payRes = useSelector((state)=> {
+  //   console.log(state)
+  //   return null;
+  // })
+  // const bookId = useSelector((state)=> state.counter.bookingId)
+  // console.log({
+  //   bookId,
+  //   payRes,
+  // });
+
   return (
     <div className="my-[150px] px-[50px] md:flex justify-center">
       <section className="border-2 rounded-2xl md:w-[70%] shadow-2xl p-5 flex flex-col items-center">
@@ -78,6 +90,7 @@ const CnfmBookingModal = () => {
         </div>
       </section>
     </div>
+   
   );
 };
 

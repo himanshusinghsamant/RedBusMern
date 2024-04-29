@@ -5,20 +5,24 @@ import { PiSteeringWheelBold } from "react-icons/pi";
 
 const BusSeats = ({ seatDetails, details }) => {
   const [selectedOption, setSelectedOption] = useState(0);
+  const [selectSeat, setSelectSeat] = useState();
 
   function handleOptionClick(e) {
     setSelectedOption(e);
   }
 
-  console.log(details);
+  function handleSeatSelection(e){
+    setSelectSeat(e)
+  }
+
 
   if (seatDetails) {
     return (
-      <div className=" bg-slate-500 border-2 rounded-xl p-2">
+      <div className=" bg-slate-500 border-2 rounded-xl p-2 w-[1000px]">
         <h1 className="font-bold text-2xl tracking-widest m-3 text-white">
           Select Seats
         </h1>
-        <section className="md:flex w-[100%] md:justify-around py-3 text-white">
+        <section className="flex w-[100%] justify-around py-3 text-white">
           <div className=" p-3">
             <ul
               className="flex
@@ -27,7 +31,7 @@ const BusSeats = ({ seatDetails, details }) => {
               <li className="px-3 py-1 border-white border-2 rounded-lg bg-slate-600 mx-2">
                 Seats Price
               </li>
-              {details?.selectseats?.seatprice?.map((price, index) => {
+              {details?.seatprice?.map((price, index) => {
                 return (
                   <li
                     onClick={() => handleOptionClick(index)}
@@ -62,7 +66,7 @@ const BusSeats = ({ seatDetails, details }) => {
             </ul>
           </div>
         </section>
-        <section className="md:flex md:justify-around my-7">
+        <section className=" flex justify-around my-7">
           <div className="mt-10">
             <span className="bg-white p-2 rounded font-semibold">
               Click on an Available seat to proceed with your transaction.
@@ -72,13 +76,14 @@ const BusSeats = ({ seatDetails, details }) => {
                 <PiSteeringWheelBold />
               </div>
               <div className="border-l-2 border-white grid grid-cols-10 gap-3 py-5 px-3">
-                {details.selectseats.seats.map((seat, index) => {
+                {Array.from({ length: details.totalSeats }, (_, index) => index + 1).map((element, index) => {
                   return (
                     <h5
-                      className="border-2 border-white rounded-md text-center px-[2px] py-[1px] cursor-pointer text-white font-extrabold hover:border-green-500"
+                    onClick={()=>handleSeatSelection(element)}
+                      className={`border-2 border-white rounded-md text-center px-[2px] py-[1px] cursor-pointer text-white font-extrabold hover:border-green-400 ${selectSeat === element ? 'border-green-400 text-green-400': ""}`}
                       key={index}
                     >
-                      {seat}
+                      {element}
                     </h5>
                   );
                 })}
@@ -94,23 +99,23 @@ const BusSeats = ({ seatDetails, details }) => {
               <div className="my-5">
                 <div className="flex justify-between my-4">
                   <span>
-                    <h1 className="font-bold text-white">Delhi</h1>
+                    <h1 className="font-bold text-white uppercase">{details.from}</h1>
                     <p className="text-gray-300 text-sm">delhi metro station</p>
                   </span>
-                  <span className="text-white font-bold">12:00</span>
+                  <span className="text-white font-bold">{details.departureTime}</span>
                 </div>
                 <div className="flex justify-between my-4">
                   <span>
-                    <h1 className="font-bold text-white">Lucknow</h1>
+                    <h1 className="font-bold text-white uppercase">{details.to}</h1>
                     <p className="text-gray-300 text-sm">charbhag bus station, lucknow</p>
                   </span>
-                  <span className="text-white font-bold">20:30</span>
+                  <span className="text-white font-bold">{details.arrivalTime}</span>
                 </div>
               </div>
 
               <div className="flex justify-between border-y-2 py-3 border-white ">
                 <h4 className="text-white font-bold text-xl">Seat No.</h4>
-                <h5 className="text-white font-bold">10</h5>
+                <h5 className="text-white font-bold">{selectSeat}</h5>
               </div>
               <span className="text-white font-bold text-xl">Fare details</span>
               <div className="flex justify-between my-4">
@@ -118,11 +123,11 @@ const BusSeats = ({ seatDetails, details }) => {
                     <h1 className="font-bold text-white">Amount</h1>
                     <p className="text-gray-300 text-sm">charbhag bus station, lucknow</p>
                   </span>
-                  <span className="text-white font-bold">INR- 850.00</span>
+                  <span className="text-white font-bold">{details.busFare}-Rs</span>
                 </div>
             </div>
-            <Link to={"/bookinginformation"}>
-              <li className="flex items-center text-xl mx-5 cursor-pointer border-[1px] border-orange-500 my-5 px-4 py-1 rounded-md hover:text-white hover:bg-orange-500 transition-all duration-200 ease-in-out">
+            <Link to={`/bookinginformation/${details._id}/${selectSeat}`}>
+              <li className="flex items-center justify-center text-xl mx-5 cursor-pointer border-[1px] border-orange-500 my-5 px-4 py-1 rounded-md hover:text-white hover:bg-orange-500 transition-all duration-200 ease-in-out">
                 {" "}
                 Proceed to Booking
               </li>

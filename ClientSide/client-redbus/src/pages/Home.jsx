@@ -2,6 +2,7 @@ import React from "react";
 import { useState } from "react";
 import bgImg from "../images/redbus-bg-img-1.png";
 import redBus_logo from "../images/redbus-logo.jpg";
+import bus_logo from '../images/redbus-logo-2.jpg'
 import { FaCar } from "react-icons/fa";
 import { indianStates } from "../datas/StatesData";
 import { FaRegCalendarAlt } from "react-icons/fa";
@@ -48,13 +49,19 @@ const Home = () => {
   const [ selectFrom, setSelectFrom] = useState("");
   const [ selectTo, setSelectTo] = useState("");
   const [selectedDate, setSelectedDate] = useState(null);
+ 
+  const details ={
+    selectFrom,
+    selectTo,
+    selectedDate,
+  }
 
   function handleChangeFrom(from){
-    setSelectFrom(from.target.value)
+    setSelectFrom(from.target.value.toLowerCase())
   }
 
   function handleChangeTo(to){
-    setSelectTo(to.target.value)
+    setSelectTo(to.target.value.toLowerCase())
   }
 
   function handleDateChange(date) {
@@ -63,15 +70,16 @@ const Home = () => {
 
   return (
     <main>
-      <div className="mt-[150px] md:my-[100px] md:relative">
+         <img className="w-[80px] cursor-pointer" src={bus_logo} alt="" />
+      <div className="mt-[30px] md:my-[100px] md:relative">
         <img
           className="w-[100%] md:h-[450px] md:object-cover md:object-top"
           src={bgImg}
           alt=""
         />
 
-        <div className=" bg-white border-2 rounded-3xl p-5 m-4 flex flex-col md:flex-row md:justify-around md:w-[80%] md:absolute -bottom-[19%] left-[9%] shadow-2xl z-20">
-          <div className="flex items-center justify- my-3">
+        <div className=" bg-white border-2 rounded-3xl p-5 m-4 mt-[100px] flex flex-col md:flex-row md:justify-around md:w-[80%] md:absolute -bottom-[19%] left-[9%] shadow-2xl z-20">
+          <div className="flex items-center my-3">
             <span className="text-xl mr-4">
               <FaCar />
             </span>
@@ -93,11 +101,11 @@ const Home = () => {
             </div>
           </div>
 
-          <div className="flex items-center justify- my-3">
+          <div className="flex items-center my-3">
             <span className="text-xl mr-4">
               <FaCar />
             </span>
-            <div className="flex justify-around items-center relative">
+            <div className="flex md:justify-around items-center">
               <label className="mr-4" htmlFor="">
                 To
               </label>
@@ -117,7 +125,7 @@ const Home = () => {
 
           {/* ***********************************************> */}
 
-          <div className="flex items-center justify-center my-3">
+          <div className="flex items-center md:justify-center my-3">
             <span className="text-xl mr-4">
               <FaRegCalendarAlt />
             </span>
@@ -135,8 +143,10 @@ const Home = () => {
             </div>
           </div>
           <div className="my-3 md:m-5">
-            <Link to={"/bustickets"}>
-              <button className="border-2 rounded-lg hover:border-orange-600 hover:bg-orange-600 hover:text-white px-4 py-2 hoover text-lg font-semibold transition-all duration-200 ease-in-out tracking-widest">
+            <Link to={`/bustickets/${JSON.stringify(details)}`}>
+              <button disabled={
+                !selectFrom && !selectTo
+              } className="border-2 rounded-lg hover:border-orange-600 hover:bg-orange-600 hover:text-white px-4 py-2 hoover text-lg font-semibold transition-all duration-200 ease-in-out tracking-widest">
                 Search
               </button>
             </Link>
@@ -146,9 +156,9 @@ const Home = () => {
 
       {/* ------------------------------------------------------------------------------------> */}
 
-      <section className="p-5 md:px-[50px] lg:p-[100px]">
+      <section className="p-5 mt-[100px] md:px-[50px] lg:p-[100px]">
         <div className="shadow-2xl rounded-3xl p-10">
-          <h1 className="text-3xl tracking-widest mb-10">TRENDING OFFERS</h1>
+          <h1 className="text-xl font-semibold md:text-3xl tracking-widest mb-10">TRENDING OFFERS</h1>
 
           <div className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {trendingOffersData?.map((item, index) => {
@@ -176,7 +186,7 @@ const Home = () => {
 
       <section className="p-5 md:px-[50px] lg:p-[100px] grid grid-cols-1 lg:grid-cols-2 gap-6 my-[100px]">
         <div className="space-y-10">
-          <span className="text-5xl font-semibold">
+          <span className="text-xl md:text-2xl lg:text-5xl font-semibold">
             NOW, GET MORE THAN JUST BUS TICKETS WITH REDBUS!
           </span>
           <span className="text-red-500 flex items-center">
@@ -214,14 +224,14 @@ const Home = () => {
 
       {/* ------------------------------------------------------------------------------> */}
 
-      <section className="px-5 md:px-[50px] lg:p-[100px] md:mt-[150px] lg:mt-[100px] md:flex md:justify-center md:relative">
+      <section className="px-5 my-[100px] md:px-[50px] lg:p-[100px] md:mt-[150px] lg:mt-[100px] md:flex md:justify-center md:relative">
         <img
           className="hidden md:block"
           src="https://s1.rdbuz.com/web/images/homeV2/appinstall/appInstallbg.svg"
           alt=""
         />
         <div className="md:absolute lg:left-[15%] lg:top-[16%] md:-top-[43%] p-7">
-          <h4 className="font-semibold text-5xl lg:text-white mb-7 tracking-wide">
+          <h4 className="font-semibold text-3xl lg:text-5xl lg:text-white mb-7 tracking-wide">
             ENJOY THE APP!
           </h4>
           <div className="bg-white rounded-3xl p-7 space-y-7">
